@@ -59,26 +59,26 @@ test("package.json contributes Tonel Smalltalk for .st files", () => {
   assert.equal(manifest.scripts.package, "vsce package");
 });
 
-test("vscodeignore ships the language client the way the LSP sample does", () => {
+test("compile bundles the extension with esbuild", () => {
+  const manifest = JSON.parse(
+    fs.readFileSync(path.join(root, "package.json"), "utf8")
+  ) as { scripts: { compile: string } };
+
+  assert.match(manifest.scripts.compile, /tsc -p tsconfig\.json --noEmit/);
+  assert.match(manifest.scripts.compile, /esbuild src\/extension\.ts --bundle/);
+  assert.match(manifest.scripts.compile, /--external:vscode/);
+  assert.match(manifest.scripts.compile, /--outfile=dist\/extension\.js/);
+});
+
+test("vscodeignore ships only the bundled extension and no node_modules", () => {
   const ignore = fs.readFileSync(path.join(root, ".vscodeignore"), "utf8");
 
   assert.match(ignore, /^node_modules\/\*\*$/m);
-  for (const dependency of [
-    "vscode-languageclient",
-    "vscode-languageserver-protocol",
-    "vscode-languageserver-types",
-    "vscode-jsonrpc",
-    "minimatch",
-    "brace-expansion",
-    "balanced-match",
-    "semver"
-  ]) {
-    assert.match(
-      ignore,
-      new RegExp(`^!node_modules/(?:\\{[^\\n]*\\b${dependency}\\b[^\\n]*\\}|${dependency})/\\*\\*$`, "m"),
-      dependency
-    );
-  }
+  assert.doesNotMatch(ignore, /^!node_modules/m);
+  assert.match(ignore, /^dist\/\*\*$/m);
+  assert.match(ignore, /^!dist\/extension\.js$/m);
+  assert.match(ignore, /^AGENTS\.local\.md$/m);
+  assert.match(ignore, /^\.claude\/\*\*$/m);
 });
 
 test("language configuration uses Smalltalk comment and bracket pairs", () => {

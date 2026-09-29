@@ -9,9 +9,9 @@
     "vscode": "^1.85.0"
   },
   "repository": {
-		"type": "git",
-		"url": "https://github.com/mumez/vscode-tonel-smalltalk"
-	},
+    "type": "git",
+    "url": "https://github.com/mumez/vscode-tonel-smalltalk"
+  },
   "categories": [
     "Programming Languages"
   ],
@@ -59,7 +59,7 @@
     }
   },
   "scripts": {
-    "compile": "tsc -p tsconfig.json",
+    "compile": "tsc -p tsconfig.json --noEmit && esbuild src/extension.ts --bundle --platform=node --format=cjs --target=node18 --external:vscode --outfile=dist/extension.js --minify",
     "watch": "tsc -w -p tsconfig.json",
     "test": "tsc -p tsconfig.test.json && node --test dist-test/test/*.test.js",
     "vscode:prepublish": "npm run compile",
@@ -72,6 +72,7 @@
     "@types/node": "^20.12.12",
     "@types/vscode": "^1.85.0",
     "@vscode/vsce": "^4.0.0",
+    "esbuild": "^0.28.2",
     "typescript": "^5.4.5",
     "vscode-oniguruma": "^2.0.1",
     "vscode-textmate": "^9.3.2"

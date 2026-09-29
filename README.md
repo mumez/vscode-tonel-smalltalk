@@ -57,7 +57,7 @@ Startup logs are in the **Tonel Smalltalk Language Server** output channel. A su
 npm run package
 ```
 
-This produces `vscode-tonel-smalltalk-0.0.1.vsix`. Install it from the VS Code Extensions view with **Install from VSIX**.
+`npm run compile` type-checks with `tsc` and bundles `src/extension.ts` and `vscode-languageclient` into `dist/extension.js` with esbuild, so the VSIX ships no `node_modules`. This produces `vscode-tonel-smalltalk-0.0.1.vsix`. Install it from the VS Code Extensions view with **Install from VSIX**.
 
 ## Manual check
 
@@ -89,6 +89,5 @@ This produces `vscode-tonel-smalltalk-0.0.1.vsix`. Install it from the VS Code E
 ## Remaining work
 
 - `@types/vscode` is declared as `^1.85.0`, so the lockfile can resolve a much newer API than the VS Code 1.85 engine. Pin a 1.85-compatible range before using newer editor APIs.
-- `package.json` says MIT, and there is no `LICENSE` file or `repository` field. `vsce package` warns about both. Publishing is not set up.
-- The VSIX ships `vscode-languageclient` and its runtime dependencies as separate files. `vsce` warns that the package should be bundled.
+- Publishing is not set up.
 - `npm test` does not launch the Extension Development Host. The manual check above is still the way to confirm definition, references, hover, and diagnostics against a real language server.
