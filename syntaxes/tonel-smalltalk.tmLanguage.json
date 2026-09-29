@@ -1,0 +1,121 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Tonel Smalltalk",
+  "scopeName": "source.tonel-smalltalk",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#symbols" },
+    { "include": "#pragmas" },
+    { "include": "#keywords" },
+    { "include": "#literals" },
+    { "include": "#operators" },
+    { "include": "#classes" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.smalltalk",
+          "begin": "\"",
+          "end": "\""
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.single.smalltalk",
+          "begin": "'",
+          "end": "'",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            {
+              "match": "''",
+              "name": "constant.character.escape.smalltalk"
+            }
+          ]
+        }
+      ]
+    },
+    "symbols": {
+      "patterns": [
+        {
+          "name": "constant.other.symbol.smalltalk",
+          "match": "#(?:[A-Za-z_][A-Za-z0-9_]*|[+\\-*/=~<>@%|&?!,]+|'[^']*')"
+        }
+      ]
+    },
+    "pragmas": {
+      "patterns": [
+        {
+          "name": "meta.pragma.smalltalk",
+          "begin": "^\\s*<",
+          "end": ">",
+          "patterns": [
+            {
+              "match": "[A-Za-z_][A-Za-z0-9_]*",
+              "name": "entity.name.function.smalltalk"
+            }
+          ]
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.smalltalk",
+          "match": "\\b(?:self|super|nil|true|false|thisContext)\\b"
+        },
+        {
+          "name": "keyword.other.tonel",
+          "match": "\\b(?:Class|Trait|Extension|Package)\\b"
+        }
+      ]
+    },
+    "literals": {
+      "patterns": [
+        {
+          "name": "constant.numeric.smalltalk",
+          "match": "\\b(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?:[edq]-?[0-9]+)?\\b"
+        },
+        {
+          "name": "constant.language.character.smalltalk",
+          "match": "\\$\\S"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.smalltalk",
+          "match": ":="
+        },
+        {
+          "name": "keyword.operator.return.smalltalk",
+          "match": "\\^"
+        },
+        {
+          "name": "punctuation.terminator.statement.smalltalk",
+          "match": "\\."
+        },
+        {
+          "name": "punctuation.separator.smalltalk",
+          "match": ";"
+        }
+      ]
+    },
+    "classes": {
+      "patterns": [
+        {
+          "name": "entity.name.type.class.smalltalk",
+          "match": "\\b[A-Z][A-Za-z0-9_]*\\b"
+        },
+        {
+          "name": "entity.name.function.smalltalk",
+          "match": "\\b[a-z][A-Za-z0-9_]*:(?!=)"
+        }
+      ]
+    }
+  }
+}

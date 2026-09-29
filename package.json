@@ -66,6 +66,8 @@
   "devDependencies": {
     "@types/node": "^20.12.12",
     "@types/vscode": "^1.85.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.3.2"
   }
 }
