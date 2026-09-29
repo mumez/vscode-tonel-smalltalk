@@ -59,6 +59,28 @@ test("package.json contributes Tonel Smalltalk for .st files", () => {
   assert.equal(manifest.scripts.package, "vsce package");
 });
 
+test("vscodeignore ships the language client the way the LSP sample does", () => {
+  const ignore = fs.readFileSync(path.join(root, ".vscodeignore"), "utf8");
+
+  assert.match(ignore, /^node_modules\/\*\*$/m);
+  for (const dependency of [
+    "vscode-languageclient",
+    "vscode-languageserver-protocol",
+    "vscode-languageserver-types",
+    "vscode-jsonrpc",
+    "minimatch",
+    "brace-expansion",
+    "balanced-match",
+    "semver"
+  ]) {
+    assert.match(
+      ignore,
+      new RegExp(`^!node_modules/(?:\\{[^\\n]*\\b${dependency}\\b[^\\n]*\\}|${dependency})/\\*\\*$`, "m"),
+      dependency
+    );
+  }
+});
+
 test("language configuration uses Smalltalk comment and bracket pairs", () => {
   const configuration = JSON.parse(
     fs.readFileSync(path.join(root, "language-configuration.json"), "utf8")
