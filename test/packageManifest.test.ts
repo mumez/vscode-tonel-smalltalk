@@ -12,6 +12,7 @@ test("package.json contributes Tonel Smalltalk for .st files", () => {
     name: string;
     main: string;
     engines: { vscode: string };
+    scripts: { package: string; "vscode:prepublish": string };
     contributes: {
       languages: Array<{
         id: string;
@@ -54,6 +55,8 @@ test("package.json contributes Tonel Smalltalk for .st files", () => {
       .default,
     ""
   );
+  assert.equal(manifest.scripts["vscode:prepublish"], "npm run compile");
+  assert.equal(manifest.scripts.package, "vsce package");
 });
 
 test("language configuration uses Smalltalk comment and bracket pairs", () => {
