@@ -1,0 +1,71 @@
+{
+  "name": "vscode-tonel-smalltalk",
+  "displayName": "Tonel Smalltalk",
+  "description": "Tonel Smalltalk language support for .st files",
+  "version": "0.0.1",
+  "publisher": "mumez",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "smalltalk",
+    "tonel",
+    "lsp"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "tonel-smalltalk",
+        "aliases": [
+          "Tonel Smalltalk",
+          "Tonel"
+        ],
+        "extensions": [
+          ".st"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "tonel-smalltalk",
+        "scopeName": "source.tonel-smalltalk",
+        "path": "./syntaxes/tonel-smalltalk.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "title": "Tonel Smalltalk",
+      "properties": {
+        "tonelSmalltalk.serverProjectPath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path to the tonel-smalltalk-language-server project directory. When set, the extension runs cargo run --release --manifest-path <path>/Cargo.toml."
+        },
+        "tonelSmalltalk.serverPath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path to the tonel-smalltalk-language-server executable. Used when serverProjectPath is empty. When this is also empty, the extension tries node_modules/.bin and then PATH."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p tsconfig.json",
+    "watch": "tsc -w -p tsconfig.json",
+    "test": "tsc -p tsconfig.test.json && node --test dist-test/test/*.test.js",
+    "vscode:prepublish": "npm run compile"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.4.5"
+  }
+}
