@@ -3,4 +3,5 @@ dist/
 dist-test/
 *.vsix
 .vscode/settings.json
+.superpowers/
 AGENTS.local.md
