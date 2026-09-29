@@ -8,6 +8,10 @@
   "engines": {
     "vscode": "^1.85.0"
   },
+  "repository": {
+		"type": "git",
+		"url": "https://github.com/mumez/vscode-tonel-smalltalk"
+	},
   "categories": [
     "Programming Languages"
   ],
@@ -71,5 +75,8 @@
     "typescript": "^5.4.5",
     "vscode-oniguruma": "^2.0.1",
     "vscode-textmate": "^9.3.2"
+  },
+  "allowScripts": {
+    "@vscode/vsce-sign": true
   }
 }
