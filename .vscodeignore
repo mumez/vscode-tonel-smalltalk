@@ -10,3 +10,4 @@ tsconfig.test.json
 node_modules/**
 draft-plan-ja.md
 AGENTS.md
+.superpowers/**
