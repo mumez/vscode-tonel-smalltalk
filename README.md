@@ -15,7 +15,7 @@ The language server implements those LSP methods. This extension does not reimpl
 ## Requirements
 
 - VS Code 1.85 or newer
-- A built `tonel-smalltalk-language-server` binary
+- The `tonel-smalltalk-language-server` binary. See [Language server](#language-server).
 - A workspace folder that contains the Tonel sources. The server indexes that folder on startup.
 
 ## Develop
@@ -30,14 +30,35 @@ npm run compile
 
 Press F5 and choose **Run Extension**.
 
-## Server command
+## Language server
+
+The language server (`tonel-smalltalk-language-server`) is a Rust binary. This extension does not download or bundle it.
 
 The extension picks the first match:
 
 1. `tonelSmalltalk.serverPath`: that executable
 2. `tonel-smalltalk-language-server` on `PATH`
 
-The language server is a Rust binary, not an npm package of this extension.
+### Download a release
+
+Download the archive for your platform from the [releases page](https://github.com/mumez/tonel-smalltalk-language-server/releases):
+
+- `tonel-smalltalk-language-server-aarch64-apple-darwin.tar.gz`
+- `tonel-smalltalk-language-server-x86_64-apple-darwin.tar.gz`
+- `tonel-smalltalk-language-server-aarch64-unknown-linux-gnu.tar.gz`
+- `tonel-smalltalk-language-server-x86_64-unknown-linux-gnu.tar.gz`
+- `tonel-smalltalk-language-server-aarch64-pc-windows-msvc.zip`
+- `tonel-smalltalk-language-server-x86_64-pc-windows-msvc.zip`
+
+Each archive contains a directory with the `tonel-smalltalk-language-server` executable (`tonel-smalltalk-language-server.exe` on Windows). Extract it, then copy the executable onto `PATH`, or set its path in your VS Code `settings.json`, for example on Windows:
+
+```json
+{
+  "tonelSmalltalk.serverPath": "C:\\Users\\someone\\bin\\tonel-smalltalk-language-server.exe"
+}
+```
+
+### Build from source
 
 Build the server in its own repository:
 
@@ -46,6 +67,8 @@ cargo build --release
 ```
 
 The release binary is `target/release/tonel-smalltalk-language-server`. Point `tonelSmalltalk.serverPath` at it, or copy it onto `PATH`.
+
+### Logs
 
 Startup logs are in the **Tonel Smalltalk Language Server** output channel. A successful index logs `Workspace scan complete`.
 
@@ -59,7 +82,7 @@ npm run package
 
 ## Manual check
 
-1. Build the language server and set `tonelSmalltalk.serverPath`, or put it on `PATH`.
+1. Install the language server and set `tonelSmalltalk.serverPath`, or put it on `PATH`.
 2. Press F5 in this repository.
 3. In the Extension Development Host, open a folder of `.st` files.
 4. Confirm comments, strings, symbols, and class names are colored.
