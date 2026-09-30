@@ -1,4 +1,3 @@
-import * as fs from "node:fs";
 import * as vscode from "vscode";
 import {
   LanguageClient,
@@ -12,11 +11,7 @@ let client: LanguageClient | undefined;
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
   const config = vscode.workspace.getConfiguration("tonelSmalltalk");
   const server = resolveServerCommand({
-    serverProjectPath: config.get<string>("serverProjectPath") ?? "",
-    serverPath: config.get<string>("serverPath") ?? "",
-    platform: process.platform,
-    extensionPath: context.extensionPath,
-    fileExists: fs.existsSync
+    serverPath: config.get<string>("serverPath") ?? ""
   });
 
   const executable = { command: server.command, args: server.args };

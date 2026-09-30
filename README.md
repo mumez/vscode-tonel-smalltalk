@@ -15,7 +15,7 @@ The language server implements those LSP methods. This extension does not reimpl
 ## Requirements
 
 - VS Code 1.85 or newer
-- A built `tonel-smalltalk-language-server` binary, or a Rust toolchain when using `tonelSmalltalk.serverProjectPath`
+- A built `tonel-smalltalk-language-server` binary
 - A workspace folder that contains the Tonel sources. The server indexes that folder on startup.
 
 ## Develop
@@ -34,12 +34,10 @@ Press F5 and choose **Run Extension**.
 
 The extension picks the first match:
 
-1. `tonelSmalltalk.serverProjectPath`: `cargo run --release --manifest-path <path>/Cargo.toml`
-2. `tonelSmalltalk.serverPath`: that executable
-3. `<extension>/node_modules/.bin/tonel-smalltalk-language-server` when that file exists
-4. `tonel-smalltalk-language-server` on `PATH`
+1. `tonelSmalltalk.serverPath`: that executable
+2. `tonel-smalltalk-language-server` on `PATH`
 
-A normal `npm install` does not create step 3. The language server is a Rust binary, not an npm package of this extension.
+The language server is a Rust binary, not an npm package of this extension.
 
 Build the server in its own repository:
 
@@ -61,7 +59,7 @@ npm run package
 
 ## Manual check
 
-1. Build the language server and set `tonelSmalltalk.serverPath` or `tonelSmalltalk.serverProjectPath`.
+1. Build the language server and set `tonelSmalltalk.serverPath`, or put it on `PATH`.
 2. Press F5 in this repository.
 3. In the Extension Development Host, open a folder of `.st` files.
 4. Confirm comments, strings, symbols, and class names are colored.
@@ -73,8 +71,8 @@ npm run package
 
 ## Known limitations
 
-- The language server is not bundled. If no binary can be started, activation fails with VS Code's generic extension error. The first `cargo run --release` compiles the server and can take several minutes, with no extra progress message from this extension.
-- `tonelSmalltalk.serverPath` and `tonelSmalltalk.serverProjectPath` are read when the extension activates. Changing them needs a window reload. There is no restart command.
+- The language server is not bundled. If no binary can be started, activation fails with VS Code's generic extension error.
+- `tonelSmalltalk.serverPath` is read when the extension activates. Changing it needs a window reload. There is no restart command.
 - The server indexes the workspace folder at startup, then updates documents that are open. It does not handle `workspace/didChangeWatchedFiles`, so a class added or edited in a closed `.st` file stays out of the index until reload.
 - Highlighting is a TextMate grammar, not the tree-sitter grammar used by the language server. These forms are colored incorrectly or not at all:
   - radix integers such as `16r1F`

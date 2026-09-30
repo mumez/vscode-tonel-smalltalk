@@ -45,15 +45,10 @@
     "configuration": {
       "title": "Tonel Smalltalk",
       "properties": {
-        "tonelSmalltalk.serverProjectPath": {
-          "type": "string",
-          "default": "",
-          "description": "Absolute path to the tonel-smalltalk-language-server project directory. When set, the extension runs cargo run --release --manifest-path <path>/Cargo.toml."
-        },
         "tonelSmalltalk.serverPath": {
           "type": "string",
           "default": "",
-          "description": "Absolute path to the tonel-smalltalk-language-server executable. Used when serverProjectPath is empty. When this is also empty, the extension tries node_modules/.bin and then PATH."
+          "description": "Absolute path to the tonel-smalltalk-language-server executable. When empty, the extension runs tonel-smalltalk-language-server from PATH."
         }
       }
     }

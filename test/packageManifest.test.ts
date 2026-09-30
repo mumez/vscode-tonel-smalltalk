@@ -45,12 +45,6 @@ test("package.json contributes Tonel Smalltalk for .st files", () => {
     "./syntaxes/tonel-smalltalk.tmLanguage.json"
   );
   assert.equal(
-    manifest.contributes.configuration.properties[
-      "tonelSmalltalk.serverProjectPath"
-    ].type,
-    "string"
-  );
-  assert.equal(
     manifest.contributes.configuration.properties["tonelSmalltalk.serverPath"]
       .default,
     ""

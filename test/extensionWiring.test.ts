@@ -9,7 +9,6 @@ test("extension starts the Tonel language client for .st documents", () => {
   const source = fs.readFileSync(sourcePath, "utf8");
 
   assert.match(source, /resolveServerCommand/);
-  assert.match(source, /serverProjectPath/);
   assert.match(source, /serverPath/);
   assert.match(source, /language:\s*"tonel-smalltalk"/);
   assert.match(source, /scheme:\s*"file"/);
