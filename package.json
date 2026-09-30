@@ -2,8 +2,9 @@
   "name": "vscode-tonel-smalltalk",
   "displayName": "Tonel Smalltalk",
   "description": "Tonel Smalltalk language support for .st files",
-  "version": "0.0.1",
-  "publisher": "mumez",
+  "version": "0.1.0",
+  "publisher": "SoftUmeYa-llc",
+  "icon": "images/st-logo.png",
   "license": "MIT",
   "engines": {
     "vscode": "^1.85.0"
@@ -73,6 +74,7 @@
     "vscode-textmate": "^9.3.2"
   },
   "allowScripts": {
-    "@vscode/vsce-sign": true
+    "@vscode/vsce-sign": true,
+    "esbuild": true
   }
 }
