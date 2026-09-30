@@ -1,18 +1,52 @@
+import * as fs from "node:fs";
 import * as vscode from "vscode";
 import {
   LanguageClient,
   LanguageClientOptions,
   ServerOptions
 } from "vscode-languageclient/node";
-import { resolveServerCommand } from "./serverCommand";
+import {
+  findExecutableOnPath,
+  resolveServerCommand,
+  type ServerCommand
+} from "./serverCommand";
+import { downloadLatestServer } from "./serverDownload";
 
 let client: LanguageClient | undefined;
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
   const config = vscode.workspace.getConfiguration("tonelSmalltalk");
-  const server = resolveServerCommand({
-    serverPath: config.get<string>("serverPath") ?? ""
-  });
+  let server: ServerCommand;
+  try {
+    server = await resolveServerCommand({
+      serverPath: config.get<string>("serverPath") ?? "",
+      findExecutableOnPath: () =>
+        findExecutableOnPath({
+          pathVariable: process.env.PATH ?? "",
+          platform: process.platform,
+          fileExists: fs.existsSync
+        }),
+      downloadLatestServer: () =>
+        vscode.window.withProgress(
+          {
+            location: vscode.ProgressLocation.Notification,
+            title: "Downloading Tonel Smalltalk language server"
+          },
+          () =>
+            downloadLatestServer({
+              installRoot: vscode.Uri.joinPath(context.globalStorageUri, "server").fsPath,
+              platform: process.platform,
+              arch: process.arch,
+              fetch
+            })
+        )
+    });
+  } catch (error) {
+    void vscode.window.showErrorMessage(
+      `Tonel Smalltalk language server could not be started: ${error instanceof Error ? error.message : String(error)}`
+    );
+    return;
+  }
 
   const executable = { command: server.command, args: server.args };
   const serverOptions: ServerOptions = {

@@ -15,7 +15,7 @@ The language server implements those LSP methods. This extension does not reimpl
 ## Requirements
 
 - VS Code 1.85 or newer
-- The `tonel-smalltalk-language-server` binary. See [Language server](#language-server).
+- Network access to GitHub on first start, unless you provide the `tonel-smalltalk-language-server` binary yourself. See [Language server](#language-server).
 - A workspace folder that contains the Tonel sources. The server indexes that folder on startup.
 
 ## Develop
@@ -32,16 +32,19 @@ Press F5 and choose **Run Extension**.
 
 ## Language server
 
-The language server (`tonel-smalltalk-language-server`) is a Rust binary. This extension does not download or bundle it.
+The language server (`tonel-smalltalk-language-server`) is downloaded automatically. No manual setup is required.
 
 The extension picks the first match:
 
 1. `tonelSmalltalk.serverPath`: that executable
 2. `tonel-smalltalk-language-server` on `PATH`
+3. The latest release from [`mumez/tonel-smalltalk-language-server`](https://github.com/mumez/tonel-smalltalk-language-server), downloaded into the extension's global storage
 
-### Download a release
+Step 3 checks GitHub for the latest release on every start and downloads it only when that version is not stored yet. When GitHub is unreachable, it uses the newest stored version. Extraction uses the system `tar` (`System32\tar.exe` on Windows 10 and later).
 
-Download the archive for your platform from the [releases page](https://github.com/mumez/tonel-smalltalk-language-server/releases):
+### Download a release manually
+
+To use a binary instead of the automatic download, download the archive for your platform from the [releases page](https://github.com/mumez/tonel-smalltalk-language-server/releases):
 
 - `tonel-smalltalk-language-server-aarch64-apple-darwin.tar.gz`
 - `tonel-smalltalk-language-server-x86_64-apple-darwin.tar.gz`
@@ -82,7 +85,7 @@ npm run package
 
 ## Manual check
 
-1. Install the language server and set `tonelSmalltalk.serverPath`, or put it on `PATH`.
+1. Leave `tonelSmalltalk.serverPath` empty and remove the server from `PATH` to test the automatic download, or set `tonelSmalltalk.serverPath`.
 2. Press F5 in this repository.
 3. In the Extension Development Host, open a folder of `.st` files.
 4. Confirm comments, strings, symbols, and class names are colored.
@@ -94,7 +97,9 @@ npm run package
 
 ## Known limitations
 
-- The language server is not bundled. If no binary can be started, activation fails with VS Code's generic extension error.
+- The language server is not bundled. If it cannot be found or downloaded, the extension shows an error message and does not start the client. Platforms other than macOS, Linux (glibc), and Windows on x64 or arm64 have no prebuilt binary and need `tonelSmalltalk.serverPath`.
+- The download uses Node's `fetch`. Depending on the VS Code version, it may not follow VS Code's proxy settings. If the download fails behind a proxy, download the binary manually.
+- Downloaded versions stay in global storage. Old versions are not removed.
 - `tonelSmalltalk.serverPath` is read when the extension activates. Changing it needs a window reload. There is no restart command.
 - The server indexes the workspace folder at startup, then updates documents that are open. It does not handle `workspace/didChangeWatchedFiles`, so a class added or edited in a closed `.st` file stays out of the index until reload.
 - Highlighting is a TextMate grammar, not the tree-sitter grammar used by the language server. These forms are colored incorrectly or not at all:

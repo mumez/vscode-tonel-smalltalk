@@ -48,7 +48,7 @@
         "tonelSmalltalk.serverPath": {
           "type": "string",
           "default": "",
-          "description": "Absolute path to the tonel-smalltalk-language-server executable. When empty, the extension runs tonel-smalltalk-language-server from PATH."
+          "description": "Absolute path to the tonel-smalltalk-language-server executable. When empty, the extension uses tonel-smalltalk-language-server from PATH, or else downloads the latest release from GitHub."
         }
       }
     }

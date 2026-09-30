@@ -10,6 +10,9 @@ test("extension starts the Tonel language client for .st documents", () => {
 
   assert.match(source, /resolveServerCommand/);
   assert.match(source, /serverPath/);
+  assert.match(source, /findExecutableOnPath/);
+  assert.match(source, /downloadLatestServer/);
+  assert.match(source, /globalStorageUri/);
   assert.match(source, /language:\s*"tonel-smalltalk"/);
   assert.match(source, /scheme:\s*"file"/);
   assert.match(source, /"tonelSmalltalkLanguageServer"/);
