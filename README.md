@@ -83,6 +83,15 @@ npm run package
 
 `npm run compile` type-checks with `tsc` and bundles `src/extension.ts` and `vscode-languageclient` into `dist/extension.js` with esbuild, so the VSIX ships no `node_modules`. This produces `vscode-tonel-smalltalk-0.0.1.vsix`. Install it from the VS Code Extensions view with **Install from VSIX**.
 
+## Publish
+
+The **Publish** workflow (`.github/workflows/publish.yml`) runs on manual dispatch only. It needs a repository secret `VSCE_PAT` holding an Azure DevOps personal access token with the **Marketplace (Manage)** scope for the `mumez` publisher.
+
+1. Bump `version` in `package.json` and push to `main`.
+2. Run **Actions > Publish > Run workflow**.
+
+The workflow runs `npm test` and fails if a GitHub release named `v<version>` already exists. Then it publishes the VSIX to the Visual Studio Marketplace and attaches the same VSIX to a new GitHub release `v<version>`.
+
 ## Manual check
 
 1. Leave `tonelSmalltalk.serverPath` empty and remove the server from `PATH` to test the automatic download, or set `tonelSmalltalk.serverPath`.
@@ -115,5 +124,4 @@ npm run package
 ## Remaining work
 
 - `@types/vscode` is declared as `^1.85.0`, so the lockfile can resolve a much newer API than the VS Code 1.85 engine. Pin a 1.85-compatible range before using newer editor APIs.
-- Publishing is not set up.
 - `npm test` does not launch the Extension Development Host. The manual check above is still the way to confirm definition, references, hover, and diagnostics against a real language server.
